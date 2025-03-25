@@ -37,15 +37,15 @@ export default function WebSearchSettings() {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <div className="text-zinc-600 text-sm">User&apos;s location</div>
+        <div className="text-zinc-600 dark:text-zinc-400 text-sm">User&apos;s location</div>
         <div
-          className="text-zinc-400 text-sm px-1 transition-colors hover:text-zinc-600 cursor-pointer"
+          className="text-zinc-400 dark:text-zinc-500 text-sm px-1 transition-colors hover:text-zinc-600 dark:hover:text-zinc-300 cursor-pointer"
           onClick={handleClear}
         >
           Clear
         </div>
       </div>
-      <div className="mt-3 space-y-3 text-zinc-400">
+      <div className="mt-3 space-y-3 text-zinc-400 dark:text-zinc-500">
         <div className="flex items-center gap-2">
           <label htmlFor="country" className="text-sm w-20">
             Country
@@ -64,7 +64,7 @@ export default function WebSearchSettings() {
             id="region"
             type="text"
             placeholder="Region"
-            className="bg-white border text-sm flex-1 text-zinc-900 placeholder:text-zinc-400"
+            className="bg-white dark:bg-gray-800 border border-zinc-300 dark:border-zinc-600 text-sm flex-1 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-500"
             value={webSearchConfig.user_location?.region ?? ""}
             onChange={(e) => handleLocationChange("region", e.target.value)}
           />
@@ -78,7 +78,7 @@ export default function WebSearchSettings() {
             id="city"
             type="text"
             placeholder="City"
-            className="bg-white border text-sm flex-1 text-zinc-900 placeholder:text-zinc-400"
+            className="bg-white dark:bg-gray-800 border border-zinc-300 dark:border-zinc-600 text-sm flex-1 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-500"
             value={webSearchConfig.user_location?.city ?? ""}
             onChange={(e) => handleLocationChange("city", e.target.value)}
           />

@@ -9,22 +9,22 @@ export type Annotation = {
   index?: number;
 };
 
-const AnnotationPill = ({ annotation }: { annotation: Annotation }) => {
-  const className =
-    "inline-block text-nowrap px-3 py-1 rounded-full text-xs max-w-48 shrink-0 text-ellipsis overflow-hidden bg-[#ededed] text-zinc-500";
+const baseStyle =
+  "inline-block text-nowrap px-3 py-1 rounded-full text-xs max-w-48 shrink-0 text-ellipsis overflow-hidden bg-[#ededed] dark:bg-background text-zinc-500 dark:text-foreground";
 
+const AnnotationPill = ({ annotation }: { annotation: Annotation }) => {
   switch (annotation.type) {
     case "file_citation":
-      return <span className={className}>{annotation.filename}</span>;
+      return <span className={baseStyle}>{annotation.filename}</span>;
     case "url_citation":
       return (
         <a
           target="_blank"
           rel="noopener noreferrer"
           href={annotation.url}
-          className={className}
+          className={baseStyle}
         >
-          <div className=" flex items-center gap-1">
+          <div className="flex items-center gap-1">
             <div className="truncate">{annotation.title}</div>
             <ExternalLinkIcon size={12} className="shrink-0" />
           </div>

@@ -53,47 +53,76 @@ export const handleTurn = async (
 
     if (!response.ok) {
       console.error(`Error: ${response.status} - ${response.statusText}`);
-      return;
+      throw new Error(`API response error: ${response.status} - ${response.statusText}`);
+    }
+
+    if (!response.body) {
+      throw new Error("Response body is null");
     }
 
     // Reader for streaming data
-    const reader = response.body!.getReader();
+    const reader = response.body.getReader();
     const decoder = new TextDecoder();
     let done = false;
     let buffer = "";
 
     while (!done) {
-      const { value, done: doneReading } = await reader.read();
-      done = doneReading;
-      const chunkValue = decoder.decode(value);
-      buffer += chunkValue;
+      try {
+        const { value, done: doneReading } = await reader.read();
+        done = doneReading;
+        
+        if (done) break;
+        
+        const chunkValue = decoder.decode(value);
+        buffer += chunkValue;
 
-      const lines = buffer.split("\n\n");
-      buffer = lines.pop() || "";
+        const lines = buffer.split("\n\n");
+        buffer = lines.pop() || "";
 
-      for (const line of lines) {
-        if (line.startsWith("data: ")) {
-          const dataStr = line.slice(6);
-          if (dataStr === "[DONE]") {
-            done = true;
-            break;
+        for (const line of lines) {
+          if (line.startsWith("data: ")) {
+            const dataStr = line.slice(6);
+            if (dataStr === "[DONE]") {
+              done = true;
+              break;
+            }
+            
+            try {
+              const data = JSON.parse(dataStr);
+              onMessage(data);
+            } catch (parseError) {
+              console.error("Error parsing JSON data:", parseError, "Data:", dataStr);
+            }
           }
-          const data = JSON.parse(dataStr);
-          onMessage(data);
         }
+      } catch (readError) {
+        console.error("Error reading from stream:", readError);
+        done = true;
       }
     }
 
     // Handle any remaining data in buffer
     if (buffer && buffer.startsWith("data: ")) {
-      const dataStr = buffer.slice(6);
-      if (dataStr !== "[DONE]") {
-        const data = JSON.parse(dataStr);
-        onMessage(data);
+      try {
+        const dataStr = buffer.slice(6);
+        if (dataStr !== "[DONE]") {
+          const data = JSON.parse(dataStr);
+          onMessage(data);
+        }
+      } catch (parseError) {
+        console.error("Error parsing remaining buffer:", parseError);
       }
     }
   } catch (error) {
     console.error("Error handling turn:", error);
+    // Return a user-friendly error as an assistant message
+    onMessage({
+      event: "response.output_text.delta",
+      data: {
+        delta: "Sorry, there was an error processing your message. Please try again.",
+        item_id: "error-" + Date.now(),
+      }
+    });
   }
 };
 

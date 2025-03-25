@@ -4,7 +4,10 @@ import React, { useEffect, useRef, useState } from "react";
 import ToolCall from "./tool-call";
 import Message from "./message";
 import Annotations from "./annotations";
+import FunctionSuggestions from "./FunctionSuggestions";
 import { Item } from "@/lib/assistant";
+import { motion } from "framer-motion";
+import TypingMessage from "./TypingMessage";
 
 interface ChatProps {
   items: Item[];
@@ -23,11 +26,44 @@ const Chat: React.FC<ChatProps> = ({ items, onSendMessage }) => {
     scrollToBottom();
   }, [items]);
 
+  const handleSuggestionClick = (suggestion: string) => {
+    // If there's existing text, add the suggestion on a new line
+    const newValue = inputMessageText ? `${inputMessageText}\n${suggestion}` : suggestion;
+    setinputMessageText(newValue);
+    // Focus the textarea after updating
+    setTimeout(() => {
+      const textarea = document.getElementById('prompt-textarea') as HTMLTextAreaElement;
+      if (textarea) {
+        textarea.focus();
+        // Update textarea height
+        textarea.style.height = 'auto';
+        textarea.style.height = textarea.scrollHeight + 'px';
+      }
+    }, 0);
+  };
+
   return (
     <div className="flex justify-center items-center size-full">
       <div className="flex grow flex-col h-full max-w-[750px] gap-2">
         <div className="h-[90vh] overflow-y-scroll px-10 flex flex-col">
           <div className="mt-auto space-y-5 pt-4">
+            {items.length === 0 && (
+              <div className="flex items-start gap-2 max-w-xl mb-4">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-pink-400 to-purple-500 flex items-center justify-center shadow-lg">
+                  <span role="img" aria-label="Assistant">👻</span>
+                </div>
+                <div className="flex flex-col gap-2 w-full">
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex-1"
+                  >
+                    <TypingMessage message="Hi! I'm Alpha Gweilo, your friendly assistant. I can help you with various tasks, and I'm especially good at providing Hong Kong weather information backed by the Hong Kong Observatory! How can I assist you today? 👻🌤️" />
+                  </motion.div>
+                </div>
+              </div>
+            )}
             {items.map((item, index) => (
               <React.Fragment key={index}>
                 {item.type === "tool_call" ? (
@@ -50,9 +86,9 @@ const Chat: React.FC<ChatProps> = ({ items, onSendMessage }) => {
           </div>
         </div>
         <div className="flex-1 p-4 px-10">
-          <div className="flex items-center">
-            <div className="flex w-full items-center pb-4 md:pb-1">
-              <div className="flex w-full flex-col gap-1.5 rounded-[20px] p-2.5 pl-1.5 transition-colors bg-white border border-stone-200 shadow-sm">
+          <div className="flex flex-col">
+            <div className="flex w-full items-center pb-2">
+              <div className="flex w-full flex-col gap-1.5 rounded-[20px] p-2.5 pl-1.5 transition-colors bg-background border border-border">
                 <div className="flex items-end gap-1.5 md:gap-2 pl-4">
                   <div className="flex min-w-0 flex-1 flex-col">
                     <textarea
@@ -61,14 +97,23 @@ const Chat: React.FC<ChatProps> = ({ items, onSendMessage }) => {
                       dir="auto"
                       rows={2}
                       placeholder="Message..."
-                      className="mb-2 resize-none border-0 focus:outline-none text-sm bg-transparent px-0 pb-6 pt-2"
+                      className="mb-2 resize-none border-0 focus:outline-none text-sm bg-transparent px-0 pb-6 pt-2 text-stone-900 dark:text-foreground placeholder:text-gray-500 dark:placeholder:text-muted-foreground"
                       value={inputMessageText}
-                      onChange={(e) => setinputMessageText(e.target.value)}
+                      onChange={(e) => {
+                        setinputMessageText(e.target.value);
+                        // Adjust textarea height
+                        e.target.style.height = 'auto';
+                        e.target.style.height = e.target.scrollHeight + 'px';
+                      }}
                       onKeyDown={(e) => {
                         if (e.key === "Enter" && !e.shiftKey) {
                           e.preventDefault();
-                          onSendMessage(inputMessageText);
-                          setinputMessageText("");
+                          if (inputMessageText.trim()) {
+                            onSendMessage(inputMessageText);
+                            setinputMessageText("");
+                            // Reset textarea height
+                            e.currentTarget.style.height = 'auto';
+                          }
                         }
                       }}
                     />
@@ -76,7 +121,7 @@ const Chat: React.FC<ChatProps> = ({ items, onSendMessage }) => {
                   <button
                     disabled={!inputMessageText}
                     data-testid="send-button"
-                    className="flex size-8 items-end justify-center rounded-full bg-black text-white transition-colors hover:opacity-70 focus-visible:outline-none focus-visible:outline-black disabled:bg-[#D7D7D7] disabled:text-[#f4f4f4] disabled:hover:opacity-100"
+                    className="flex size-8 items-end justify-center rounded-full bg-accent dark:bg-accent text-accent-foreground dark:text-accent-foreground transition-colors hover:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:bg-muted disabled:text-muted-foreground disabled:hover:opacity-100"
                     onClick={() => {
                       onSendMessage(inputMessageText);
                       setinputMessageText("");
@@ -100,6 +145,9 @@ const Chat: React.FC<ChatProps> = ({ items, onSendMessage }) => {
                   </button>
                 </div>
               </div>
+            </div>
+            <div className="flex justify-start px-4">
+              <FunctionSuggestions onSuggestionClick={handleSuggestionClick} />
             </div>
           </div>
         </div>

@@ -30,7 +30,7 @@ export default function PanelConfig({
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <h1 className="text-black font-medium">{title}</h1>
+              <h1 className="text-gray-900 dark:text-gray-100 font-medium">{title}</h1>
             </TooltipTrigger>
             <TooltipContent>
               <p>{tooltip}</p>

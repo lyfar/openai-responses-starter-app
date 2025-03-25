@@ -1,67 +1,127 @@
 import React from "react";
+import { Light as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import HKRainfallResponse from './HKRainfallResponse';
+import HKRegionalRainfallResponse from './HKRegionalRainfallResponse';
+import HKLocalForecastResponse from './HKLocalForecastResponse';
+import HKUVIndexResponse from './HKUVIndexResponse';
+import HKWarningResponse from './HKWarningResponse';
+import HKSpecialTipsResponse from './HKSpecialTipsResponse';
+import { RainfallWrapper } from './wrappers/RainfallWrapper';
+import { WeatherMessageWrapper } from './WeatherMessageWrapper';
 
 import { ToolCallItem } from "@/lib/assistant";
 import { BookOpenText, Clock, Globe, Zap } from "lucide-react";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { coy } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 interface ToolCallProps {
   toolCall: ToolCallItem;
 }
 
 function ApiCallCell({ toolCall }: ToolCallProps) {
+  const isWeatherTool = ['get_hk_rainfall', 'get_hk_uv_index', 'get_hk_warning_info', 'get_hk_local_forecast'].includes(toolCall.name || '');
+
+  // Always show the lovely message for weather tools
+  const weatherMessage = isWeatherTool ? (
+    <WeatherMessageWrapper toolName={toolCall.name || ''} isVisible={true} />
+  ) : null;
+
+  let weatherData = null;
+
+  // Check if this is a Hong Kong rainfall function call with output
+  if (toolCall.name === 'get_hk_rainfall' && toolCall.output) {
+    try {
+      const rainfallData = JSON.parse(toolCall.output);
+      const region = toolCall.parsedArguments?.region;
+      
+      weatherData = typeof region === 'string' ? 
+        <HKRegionalRainfallResponse data={rainfallData} region={region} /> :
+        <RainfallWrapper data={rainfallData} />;
+    } catch (error) {
+      console.error('Error parsing rainfall data:', error);
+    }
+  }
+
+  // Check if this is a Hong Kong local forecast function call with output
+  if (toolCall.name === 'get_hk_local_forecast' && toolCall.output) {
+    try {
+      const forecastData = JSON.parse(toolCall.output);
+      weatherData = <HKLocalForecastResponse data={forecastData} />;
+    } catch (error) {
+      console.error('Error parsing local forecast data:', error);
+    }
+  }
+
+  // Check if this is a Hong Kong UV index function call with output
+  if (toolCall.name === 'get_hk_uv_index' && toolCall.output) {
+    try {
+      const uvData = JSON.parse(toolCall.output);
+      weatherData = <HKUVIndexResponse data={uvData} />;
+    } catch (error) {
+      console.error('Error parsing UV index data:', error);
+    }
+  }
+
+  // Check if this is a Hong Kong warning function call with output
+  if (toolCall.name === 'get_hk_warning_info' && toolCall.output) {
+    try {
+      const warningData = JSON.parse(toolCall.output);
+      weatherData = <HKWarningResponse data={warningData} />;
+    } catch (error) {
+      console.error('Error parsing warning data:', error);
+    }
+  }
+
+  // Check if this is a Hong Kong special tips function call with output
+  if (toolCall.name === 'get_hk_special_tips' && toolCall.output) {
+    try {
+      const tipsData = JSON.parse(toolCall.output);
+      weatherData = <HKSpecialTipsResponse data={tipsData} />;
+    } catch (error) {
+      console.error('Error parsing special tips data:', error);
+    }
+  }
+
   return (
     <div className="flex flex-col w-[70%] relative mb-[-8px]">
+      {/* Show weather data or other tool response */}
       <div>
         <div className="flex flex-col text-sm rounded-[16px]">
-          <div className="font-semibold p-3 pl-0 text-gray-700 rounded-b-none flex gap-2">
-            <div className="flex gap-2 items-center text-blue-500 ml-[-8px]">
-              <Zap size={16} />
-              <div className="text-sm font-medium">
-                {toolCall.status === "completed"
-                  ? `Called ${toolCall.name}`
-                  : `Calling ${toolCall.name}...`}
-              </div>
-            </div>
-          </div>
+          {/* Show the lovely message for weather tools */}
+          {weatherMessage}
 
-          <div className="bg-[#fafafa] rounded-xl py-2 ml-4 mt-2">
-            <div className="max-h-96 overflow-y-scroll text-xs border-b mx-6 p-2">
-              <SyntaxHighlighter
-                customStyle={{
-                  backgroundColor: "#fafafa",
-                  padding: "8px",
-                  paddingLeft: "0px",
-                  marginTop: 0,
-                  marginBottom: 0,
-                }}
-                language="json"
-                style={coy}
-              >
-                {JSON.stringify(toolCall.parsedArguments, null, 2)}
-              </SyntaxHighlighter>
+          {/* Show weather data if available */}
+          {weatherData && (
+            <div className="mt-4">
+              {weatherData}
             </div>
-            <div className="max-h-96 overflow-y-scroll mx-6 p-2 text-xs">
-              {toolCall.output ? (
+          )}
+
+          {/* Show raw output for non-weather tools */}
+          {toolCall.output && !isWeatherTool && (
+            <div className="bg-[#fafafa] dark:bg-background rounded-xl py-2 ml-4 mt-2">
+              <div className="max-h-96 overflow-y-scroll mx-6 p-2 text-xs">
                 <SyntaxHighlighter
                   customStyle={{
-                    backgroundColor: "#fafafa",
+                    backgroundColor: "transparent",
                     padding: "8px",
                     paddingLeft: "0px",
                     marginTop: 0,
                   }}
                   language="json"
-                  style={coy}
+                  style={oneDark}
                 >
                   {JSON.stringify(JSON.parse(toolCall.output), null, 2)}
                 </SyntaxHighlighter>
-              ) : (
-                <div className="text-zinc-500 flex items-center gap-2 py-2">
-                  <Clock size={16} /> Waiting for result...
-                </div>
-              )}
+              </div>
             </div>
-          </div>
+          )}
+
+          {/* Show waiting message if no output yet */}
+          {!toolCall.output && !isWeatherTool && (
+            <div className="text-muted dark:text-muted-foreground flex items-center gap-2 py-2">
+              <Clock size={16} /> Waiting for result...
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -70,8 +130,8 @@ function ApiCallCell({ toolCall }: ToolCallProps) {
 
 function FileSearchCell({ toolCall }: ToolCallProps) {
   return (
-    <div className="flex gap-2 items-center text-blue-500 mb-[-16px] ml-[-8px]">
-      <BookOpenText size={16} />
+    <div className="flex gap-2 items-center text-secondary dark:text-secondary mb-[-16px] ml-[-8px]">
+      <span className="text-lg">📁</span>
       <div className="text-sm font-medium mb-0.5">
         {toolCall.status === "completed"
           ? "Searched files"
@@ -83,8 +143,8 @@ function FileSearchCell({ toolCall }: ToolCallProps) {
 
 function WebSearchCell({ toolCall }: ToolCallProps) {
   return (
-    <div className="flex gap-2 items-center text-blue-500 mb-[-16px] ml-[-8px]">
-      <Globe size={16} />
+    <div className="flex gap-2 items-center text-secondary dark:text-secondary mb-[-16px] ml-[-8px]">
+      <span className="text-lg">🔍</span>
       <div className="text-sm font-medium">
         {toolCall.status === "completed"
           ? "Searched the web"
