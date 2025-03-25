@@ -27,7 +27,7 @@ export function WarningMessage({ isVisible }: WarningMessageProps) {
     <div className="chat-message">
       <div className="flex items-start gap-2 max-w-xl mb-4">
         <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-pink-400 to-purple-500 flex items-center justify-center shadow-lg">
-          <span role="img" aria-label="Assistant">🤖</span>
+          <span role="img" aria-label="Assistant">👻</span>
         </div>
         <div className="flex flex-col gap-2 w-full">
           {/* Love Message */}

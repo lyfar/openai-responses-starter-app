@@ -1,19 +1,19 @@
 "use client";
 
-import React from 'react';
+import { FC } from 'react';
 import { toolsList } from '@/config/tools-list';
 
 interface FunctionSuggestionsProps {
   onSuggestionClick: (suggestion: string) => void;
 }
 
-const FunctionSuggestions: React.FC<FunctionSuggestionsProps> = ({ onSuggestionClick }) => {
+const FunctionSuggestions: FC<FunctionSuggestionsProps> = ({ onSuggestionClick }) => {
   // Create suggestions for all available functions with emojis
   const suggestions = [
     {
       text: "Weather",
-      description: "Get complete Hong Kong weather information",
-      action: "get_hk_all_weather in celsius",
+      description: "Get current weather, forecast and warnings",
+      action: "get_hk_weather_package unit=celsius",
       emoji: "🌤️"
     },
     {

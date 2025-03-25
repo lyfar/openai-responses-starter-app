@@ -4,17 +4,6 @@
 
 export const toolsList = [
   {
-    name: "get_hk_all_weather",
-    description: "Get complete Hong Kong weather information including current conditions, forecast, rainfall, UV index, warnings, and special tips - all in one response",
-    parameters: {
-      unit: {
-        type: "string",
-        description: "Temperature unit to use",
-        enum: ["celsius", "fahrenheit"],
-      },
-    },
-  },
-  {
     name: "get_hk_weather_package",
     description: "Get Hong Kong Observatory weather information including current conditions, forecast, and warnings",
     parameters: {

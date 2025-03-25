@@ -112,59 +112,13 @@ export const get_hk_special_tips = async () => {
   return res;
 };
 
-export const get_hk_all_weather = async ({
-  unit = "celsius",
-}: {
-  unit?: string;
-} = {}) => {
-  console.log("Getting comprehensive Hong Kong weather information");
-  
-  try {
-    // Call all weather-related functions in parallel
-    const [
-      weatherPackage,
-      rainfall,
-      uvIndex,
-      localForecast,
-      warningInfo,
-      specialTips
-    ] = await Promise.all([
-      get_hk_weather_package({ unit }),
-      get_hk_rainfall(),
-      get_hk_uv_index(),
-      get_hk_local_forecast(),
-      get_hk_warning_info(),
-      get_hk_special_tips()
-    ]);
-    
-    // Combine all results into a single comprehensive response
-    const result = {
-      currentWeather: weatherPackage.currentWeather,
-      forecast: weatherPackage.forecast,
-      warnings: weatherPackage.warnings,
-      rainfall: rainfall,
-      uvIndex: uvIndex,
-      localForecast: localForecast,
-      warningInfo: warningInfo,
-      specialTips: specialTips
-    };
-    
-    console.log("executed get_hk_all_weather function");
-    return result;
-  } catch (error) {
-    console.error("Error fetching comprehensive weather data:", error);
-    return { error: "Could not retrieve complete weather information" };
-  }
-};
-
 export const functionsMap = {
-  get_hk_weather_package: get_hk_weather_package,
-  get_hk_rainfall: get_hk_rainfall,
-  get_hk_local_forecast: get_hk_local_forecast,
-  get_hk_uv_index: get_hk_uv_index,
-  get_hk_warning_info: get_hk_warning_info,
-  get_hk_special_tips: get_hk_special_tips,
-  get_hk_all_weather: get_hk_all_weather,
-  get_joke: get_joke,
-  get_kmb_bus_data: get_kmb_bus_data,
+  get_hk_weather_package,
+  get_hk_rainfall,
+  get_hk_local_forecast,
+  get_hk_uv_index,
+  get_hk_warning_info,
+  get_hk_special_tips,
+  get_joke,
+  get_kmb_bus_data,
 };

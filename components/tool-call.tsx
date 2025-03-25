@@ -7,6 +7,7 @@ import HKLocalForecastResponse from './HKLocalForecastResponse';
 import HKUVIndexResponse from './HKUVIndexResponse';
 import HKWarningResponse from './HKWarningResponse';
 import HKSpecialTipsResponse from './HKSpecialTipsResponse';
+import HKWeatherPackageResponse from './HKWeatherPackageResponse';
 import { RainfallWrapper } from './wrappers/RainfallWrapper';
 import { WeatherMessageWrapper } from './WeatherMessageWrapper';
 
@@ -18,7 +19,13 @@ interface ToolCallProps {
 }
 
 function ApiCallCell({ toolCall }: ToolCallProps) {
-  const isWeatherTool = ['get_hk_rainfall', 'get_hk_uv_index', 'get_hk_warning_info', 'get_hk_local_forecast'].includes(toolCall.name || '');
+  const isWeatherTool = [
+    'get_hk_rainfall',
+    'get_hk_uv_index',
+    'get_hk_warning_info',
+    'get_hk_local_forecast',
+    'get_hk_weather_package'
+  ].includes(toolCall.name || '');
 
   // Always show the lovely message for weather tools
   const weatherMessage = isWeatherTool ? (
@@ -78,6 +85,16 @@ function ApiCallCell({ toolCall }: ToolCallProps) {
       weatherData = <HKSpecialTipsResponse data={tipsData} />;
     } catch (error) {
       console.error('Error parsing special tips data:', error);
+    }
+  }
+
+  // Check if this is a Hong Kong weather package function call with output
+  if (toolCall.name === 'get_hk_weather_package' && toolCall.output) {
+    try {
+      const packageData = JSON.parse(toolCall.output);
+      weatherData = <HKWeatherPackageResponse data={packageData} />;
+    } catch (error) {
+      console.error('Error parsing weather package data:', error);
     }
   }
 
