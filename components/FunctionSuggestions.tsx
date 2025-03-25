@@ -13,37 +13,37 @@ const FunctionSuggestions: FC<FunctionSuggestionsProps> = ({ onSuggestionClick }
     {
       text: "Weather",
       description: "Get current weather, forecast and warnings",
-      action: "get_hk_weather_package unit=celsius",
+      action: "What's the weather like in Hong Kong right now? Please show me in Celsius.",
       emoji: "🌤️"
     },
     {
       text: "Rainfall",
       description: "Get Hong Kong rainfall data",
-      action: "get_hk_rainfall",
+      action: "How much rain has fallen in Hong Kong recently?",
       emoji: "🌧️"
     },
     {
       text: "UV Index",
       description: "Get Hong Kong UV index",
-      action: "get_hk_uv_index",
+      action: "What's the UV index in Hong Kong today? Should I wear sunscreen?",
       emoji: "☀️"
     },
     {
       text: "Warnings",
       description: "Get active weather warnings",
-      action: "get_hk_warning_info",
+      action: "Are there any weather warnings in Hong Kong I should know about?",
       emoji: "⚠️"
     },
     {
       text: "Local Forecast",
       description: "Get detailed local weather forecast",
-      action: "get_hk_local_forecast",
+      action: "What's the detailed weather forecast for different areas in Hong Kong?",
       emoji: "🌈"
     },
     {
       text: "Bus Info",
       description: "Get KMB bus information",
-      action: "get_kmb_bus_data routes",
+      action: "Can you show me the KMB bus routes and schedules?",
       emoji: "🚌"
     }
   ];
