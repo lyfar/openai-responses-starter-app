@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import ToolCall from "./tool-call";
 import Message from "./message";
 import Annotations from "./annotations";
@@ -17,10 +18,20 @@ interface ChatProps {
 const Chat: React.FC<ChatProps> = ({ items, onSendMessage }) => {
   const itemsEndRef = useRef<HTMLDivElement>(null);
   const [inputMessageText, setinputMessageText] = useState<string>("");
+  // This state is used to provide better user experience for non-English IMEs such as Japanese
+  const [isComposing, setIsComposing] = useState(false);
 
   const scrollToBottom = () => {
     itemsEndRef.current?.scrollIntoView({ behavior: "instant" });
   };
+
+  const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === "Enter" && !event.shiftKey && !isComposing) {
+      event.preventDefault();
+      onSendMessage(inputMessageText);
+      setinputMessageText("");
+    }
+  }, [onSendMessage, inputMessageText]);
 
   useEffect(() => {
     scrollToBottom();
@@ -106,7 +117,7 @@ const Chat: React.FC<ChatProps> = ({ items, onSendMessage }) => {
                         e.target.style.height = e.target.scrollHeight + 'px';
                       }}
                       onKeyDown={(e) => {
-                        if (e.key === "Enter" && !e.shiftKey) {
+                        if (e.key === "Enter" && !e.shiftKey && !isComposing) {
                           e.preventDefault();
                           if (inputMessageText.trim()) {
                             onSendMessage(inputMessageText);
@@ -116,6 +127,8 @@ const Chat: React.FC<ChatProps> = ({ items, onSendMessage }) => {
                           }
                         }
                       }}
+                      onCompositionStart={() => setIsComposing(true)}
+                      onCompositionEnd={() => setIsComposing(false)}
                     />
                   </div>
                   <button
