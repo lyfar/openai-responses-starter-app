@@ -101,21 +101,21 @@ const HKRainfallResponse = ({ data }: HKRainfallResponseProps): JSX.Element => {
   };
 
   return (
-    <div className="mt-2 mb-4 max-w-7xl mx-auto">
+    <div className="mt-2 mb-4 max-w-7xl mx-auto px-4">
       {/* Main Container */}
       <div className="rounded-xl border border-gray-200 dark:border-gray-800 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 shadow-sm">
         {/* Header */}
-        <div className="p-4 flex items-center justify-between border-b border-gray-100 dark:border-gray-800">
-          <div className="flex items-center gap-3">
-            <span className="text-2xl">🌦️</span>
+        <div className="p-3 md:p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-gray-100 dark:border-gray-800">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <span className="text-xl sm:text-2xl">🌦️</span>
             <div>
-              <h3 className="font-semibold text-lg text-gray-800 dark:text-gray-100">Hong Kong Rainfall</h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Real-time monitoring</p>
+              <h3 className="font-semibold text-base sm:text-lg text-gray-800 dark:text-gray-100">Hong Kong Rainfall</h3>
+              <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">Real-time monitoring</p>
             </div>
           </div>
           {parsedData.updateTime && (
-            <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-              <span className="text-base">🕒</span>
+            <div className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+              <span className="text-sm sm:text-base">🕒</span>
               <time dateTime={parsedData.updateTime}>
                 {new Date(parsedData.updateTime).toLocaleString()}
               </time>
@@ -124,27 +124,27 @@ const HKRainfallResponse = ({ data }: HKRainfallResponseProps): JSX.Element => {
         </div>
 
         {/* Status Banner */}
-        <div className="px-4 py-3 bg-blue-50 dark:bg-blue-900/30 border-b border-blue-100 dark:border-blue-900">
+        <div className="px-3 sm:px-4 py-2 sm:py-3 bg-blue-50 dark:bg-blue-900/30 border-b border-blue-100 dark:border-blue-900">
           <div className="flex items-center gap-2 text-blue-700 dark:text-blue-300">
-            <span className="text-lg">ℹ️</span>
-            <p className="text-sm font-medium">
+            <span className="text-base sm:text-lg">ℹ️</span>
+            <p className="text-xs sm:text-sm font-medium">
               {stations.length} weather stations reporting • No rainfall detected
             </p>
           </div>
         </div>
 
         {/* Stations Marquee */}
-        <div className="p-6 group">
-          <Marquee className="py-4">
+        <div className="p-3 sm:p-6 group">
+          <Marquee className="py-2 sm:py-4">
             {stations.map((station: RainfallStation, i: number) => (
               <div
                 key={i}
-                className="flex items-center gap-2 p-3 mx-4 rounded-lg bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                className="flex items-center gap-2 p-2 sm:p-3 mx-2 sm:mx-4 rounded-lg bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
               >
-                <span className="text-lg" role="img" aria-label="location">📍</span>
+                <span className="text-base sm:text-lg" role="img" aria-label="location">📍</span>
                 <div>
-                  <p className="font-medium text-gray-800 dark:text-gray-100">{station.station}</p>
-                  <div className="flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400">
+                  <p className="font-medium text-sm sm:text-base text-gray-800 dark:text-gray-100">{station.station}</p>
+                  <div className="flex items-center gap-1 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
                     <span role="img" aria-label="rain">💧</span>
                     <span>0 mm</span>
                   </div>
@@ -155,10 +155,10 @@ const HKRainfallResponse = ({ data }: HKRainfallResponseProps): JSX.Element => {
         </div>
 
         {/* Footer */}
-        <div className="px-4 py-3 bg-gray-50 dark:bg-gray-800/50 rounded-b-xl border-t border-gray-100 dark:border-gray-800">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-              <span className="text-base">📊</span>
+        <div className="px-3 sm:px-4 py-2 sm:py-3 bg-gray-50 dark:bg-gray-800/50 rounded-b-xl border-t border-gray-100 dark:border-gray-800">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <div className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+              <span className="text-sm sm:text-base">📊</span>
               <span>Data from Hong Kong Observatory</span>
             </div>
             <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">

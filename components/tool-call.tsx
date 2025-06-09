@@ -99,7 +99,7 @@ function ApiCallCell({ toolCall }: ToolCallProps) {
   }
 
   return (
-    <div className="flex flex-col w-[70%] relative mb-[-8px]">
+    <div className="flex flex-col w-full sm:w-[90%] md:w-[70%] relative mb-[-8px]">
       {/* Show weather data or other tool response */}
       <div>
         <div className="flex flex-col text-sm rounded-[16px]">
@@ -108,15 +108,15 @@ function ApiCallCell({ toolCall }: ToolCallProps) {
 
           {/* Show weather data if available */}
           {weatherData && (
-            <div className="mt-4">
+            <div className="mt-3 sm:mt-4">
               {weatherData}
             </div>
           )}
 
           {/* Show raw output for non-weather tools */}
           {toolCall.output && !isWeatherTool && (
-            <div className="bg-[#fafafa] dark:bg-background rounded-xl py-2 ml-4 mt-2">
-              <div className="max-h-96 overflow-y-scroll mx-6 p-2 text-xs">
+            <div className="bg-[#fafafa] dark:bg-background rounded-xl py-2 ml-2 sm:ml-4 mt-2">
+              <div className="max-h-96 overflow-y-scroll mx-3 sm:mx-6 p-2 text-xs">
                 <SyntaxHighlighter
                   customStyle={{
                     backgroundColor: "transparent",
@@ -148,8 +148,8 @@ function ApiCallCell({ toolCall }: ToolCallProps) {
 function FileSearchCell({ toolCall }: ToolCallProps) {
   return (
     <div className="flex gap-2 items-center text-secondary dark:text-secondary mb-[-16px] ml-[-8px]">
-      <span className="text-lg">📁</span>
-      <div className="text-sm font-medium mb-0.5">
+      <span className="text-base sm:text-lg">📁</span>
+      <div className="text-xs sm:text-sm font-medium mb-0.5">
         {toolCall.status === "completed"
           ? "Searched files"
           : "Searching files..."}
@@ -161,8 +161,8 @@ function FileSearchCell({ toolCall }: ToolCallProps) {
 function WebSearchCell({ toolCall }: ToolCallProps) {
   return (
     <div className="flex gap-2 items-center text-secondary dark:text-secondary mb-[-16px] ml-[-8px]">
-      <span className="text-lg">🔍</span>
-      <div className="text-sm font-medium">
+      <span className="text-base sm:text-lg">🔍</span>
+      <div className="text-xs sm:text-sm font-medium">
         {toolCall.status === "completed"
           ? "Searched the web"
           : "Searching the web..."}

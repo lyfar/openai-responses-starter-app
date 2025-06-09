@@ -11,7 +11,7 @@ const TypingMessage: React.FC<TypingMessageProps> = ({ message }: TypingMessageP
   const characters: string[] = message.split('');
 
   return (
-    <div className="mr-4 rounded-[16px] px-4 py-2 md:mr-24 bg-primary dark:bg-primary text-primary-foreground dark:text-primary-foreground font-light">
+    <div className="mr-2 sm:mr-4 rounded-[16px] px-3 sm:px-4 py-2 md:mr-24 bg-primary dark:bg-primary text-primary-foreground dark:text-primary-foreground font-light">
       <div>
         {characters.map((char: string, index: number) => (
           <motion.span

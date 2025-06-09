@@ -55,10 +55,10 @@ const HKRegionalRainfallResponse: React.FC<HKRegionalRainfallResponseProps> = ({
     <div className="mt-2 mb-4">
       <div className="rounded-lg border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/20 overflow-hidden">
         {/* Header */}
-        <div className="p-3 flex items-center justify-between border-b border-blue-200 dark:border-blue-800">
+        <div className="p-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-blue-200 dark:border-blue-800">
           <div className="flex items-center gap-2 text-blue-700 dark:text-blue-300">
-            <CloudRain className="h-5 w-5" />
-            <h3 className="font-medium">{region} Rainfall</h3>
+            <CloudRain className="h-4 sm:h-5 w-4 sm:w-5" />
+            <h3 className="font-medium text-sm sm:text-base">{region} Rainfall</h3>
           </div>
           <div className="flex items-center gap-1 text-xs text-blue-600/75 dark:text-blue-400/75">
             <Clock className="h-3 w-3" />
@@ -72,8 +72,8 @@ const HKRegionalRainfallResponse: React.FC<HKRegionalRainfallResponseProps> = ({
         <div className="p-3">
           <div className="space-y-2">
             {regionalStations.map((station, index) => (
-              <div key={index} className="flex items-center gap-3">
-                <div className="w-32 text-sm text-blue-700 dark:text-blue-300">
+              <div key={index} className="flex items-center gap-2 sm:gap-3">
+                <div className="w-24 sm:w-32 text-xs sm:text-sm text-blue-700 dark:text-blue-300">
                   {station.station}
                 </div>
                 <div className="flex-1 flex items-center gap-2">
@@ -85,7 +85,7 @@ const HKRegionalRainfallResponse: React.FC<HKRegionalRainfallResponseProps> = ({
                       }}
                     />
                   </div>
-                  <div className="w-12 text-sm text-blue-700 dark:text-blue-300 text-right">
+                  <div className="w-10 sm:w-12 text-xs sm:text-sm text-blue-700 dark:text-blue-300 text-right">
                     {station.value} mm
                   </div>
                 </div>

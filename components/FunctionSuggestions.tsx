@@ -49,18 +49,19 @@ const FunctionSuggestions: FC<FunctionSuggestionsProps> = ({ onSuggestionClick }
   ];
 
   return (
-    <div className="flex flex-wrap gap-2 mt-2">
+    <div className="flex flex-wrap gap-1.5 sm:gap-2 mt-2">
       {suggestions.map((suggestion, index) => (
         <button
           key={index}
           onClick={() => onSuggestionClick(suggestion.action)}
-          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-background hover:bg-background/90 text-sm text-foreground transition-all border border-border hover:border-secondary shadow-sm"
+          className="inline-flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg bg-background hover:bg-background/90 text-xs sm:text-sm text-foreground transition-all border border-border hover:border-secondary shadow-sm"
           title={suggestion.description}
         >
-          <span className="text-lg">
+          <span className="text-sm sm:text-lg">
             {suggestion.emoji}
           </span>
-          {suggestion.text}
+          <span className="hidden sm:inline">{suggestion.text}</span>
+          <span className="sm:hidden">{suggestion.text.split(' ')[0]}</span>
         </button>
       ))}
     </div>

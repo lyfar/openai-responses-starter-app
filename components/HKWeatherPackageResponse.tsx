@@ -105,39 +105,39 @@ const HKWeatherPackageResponse: FC<HKWeatherPackageResponseProps> = ({ data }) =
     <div className="mt-2 mb-4">
       <div className="rounded-xl border border-border bg-[#0A0A0A] overflow-hidden">
         {/* Header with current weather */}
-        <div className="p-4 border-b border-border">
-          <div className="flex items-center justify-between mb-4">
+        <div className="p-3 sm:p-4 border-b border-border">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3 sm:mb-4">
             <div className="flex items-center gap-2">
-              <CloudSun className="h-5 w-5 text-[#00FF47]" />
-              <h3 className="font-medium text-[#00FF47]">Current Weather</h3>
+              <CloudSun className="h-4 sm:h-5 w-4 sm:w-5 text-[#00FF47]" />
+              <h3 className="font-medium text-sm sm:text-base text-[#00FF47]">Current Weather</h3>
             </div>
             <div className="text-xs text-muted-foreground">
               {formatDate(currentWeather.updateTime)}
             </div>
           </div>
           
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3 sm:gap-4">
             {/* Temperature */}
-            <div className="bg-[#1A1A1A] p-4 rounded-lg">
-              <div className="flex items-center gap-2 mb-2">
-                <ThermometerSun className="h-5 w-5 text-[#00FF47]" />
-                <span className="text-sm font-medium text-gray-300">Temperature</span>
+            <div className="bg-[#1A1A1A] p-3 sm:p-4 rounded-lg">
+              <div className="flex items-center gap-1 sm:gap-2 mb-1 sm:mb-2">
+                <ThermometerSun className="h-4 sm:h-5 w-4 sm:w-5 text-[#00FF47]" />
+                <span className="text-xs sm:text-sm font-medium text-gray-300">Temperature</span>
               </div>
-              <div className="text-2xl font-bold text-white">
+              <div className="text-xl sm:text-2xl font-bold text-white">
                 {currentWeather.temperature}°{currentWeather.temperatureUnit}
               </div>
-              <div className="text-sm text-gray-300 mt-1">
+              <div className="text-xs sm:text-sm text-gray-300 mt-1">
                 {currentWeather.weatherDescription}
               </div>
             </div>
 
             {/* Humidity */}
-            <div className="bg-[#1A1A1A] p-4 rounded-lg">
-              <div className="flex items-center gap-2 mb-2">
-                <Droplets className="h-5 w-5 text-[#00FF47]" />
-                <span className="text-sm font-medium text-gray-300">Humidity</span>
+            <div className="bg-[#1A1A1A] p-3 sm:p-4 rounded-lg">
+              <div className="flex items-center gap-1 sm:gap-2 mb-1 sm:mb-2">
+                <Droplets className="h-4 sm:h-5 w-4 sm:w-5 text-[#00FF47]" />
+                <span className="text-xs sm:text-sm font-medium text-gray-300">Humidity</span>
               </div>
-              <div className="text-2xl font-bold text-white">
+              <div className="text-xl sm:text-2xl font-bold text-white">
                 {currentWeather.humidity}%
               </div>
             </div>
@@ -145,25 +145,25 @@ const HKWeatherPackageResponse: FC<HKWeatherPackageResponseProps> = ({ data }) =
         </div>
 
         {/* Forecast section */}
-        <div className="p-4 border-b border-border">
-          <div className="flex items-center gap-2 mb-4">
-            <CloudSun className="h-5 w-5 text-[#00FF47]" />
-            <h3 className="font-medium text-[#00FF47]">9-Day Forecast</h3>
+        <div className="p-3 sm:p-4 border-b border-border">
+          <div className="flex items-center gap-2 mb-3 sm:mb-4">
+            <CloudSun className="h-4 sm:h-5 w-4 sm:w-5 text-[#00FF47]" />
+            <h3 className="font-medium text-sm sm:text-base text-[#00FF47]">9-Day Forecast</h3>
           </div>
           
-          <div className="space-y-3">
+          <div className="space-y-2 sm:space-y-3">
             {forecast.days.map((day, index) => (
-              <div key={index} className="flex items-center justify-between text-sm">
+              <div key={index} className="flex items-center justify-between text-xs sm:text-sm">
                 <div className="flex items-center gap-2">
-                  <span className="text-gray-400 w-24">
+                  <span className="text-gray-400 w-16 sm:w-24">
                     {index === 0 ? 'Today' : day.week}
                   </span>
                 </div>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2 sm:gap-4">
                   <span className="text-gray-400 text-xs">
                     {day.humidity.min}-{day.humidity.max}%
                   </span>
-                  <span className="text-white font-medium w-20 text-right">
+                  <span className="text-white font-medium w-16 sm:w-20 text-right">
                     {day.minTemperature}°-{day.maxTemperature}°
                   </span>
                 </div>
@@ -174,16 +174,16 @@ const HKWeatherPackageResponse: FC<HKWeatherPackageResponseProps> = ({ data }) =
 
         {/* Warnings section */}
         {warnings && warnings.activeWarnings && warnings.activeWarnings.length > 0 && (
-          <div className="p-4">
-            <div className="flex items-center gap-2 mb-4">
-              <AlertTriangle className="h-5 w-5 text-amber-500" />
-              <h3 className="font-medium text-amber-500">Active Warnings</h3>
+          <div className="p-3 sm:p-4">
+            <div className="flex items-center gap-2 mb-3 sm:mb-4">
+              <AlertTriangle className="h-4 sm:h-5 w-4 sm:w-5 text-amber-500" />
+              <h3 className="font-medium text-sm sm:text-base text-amber-500">Active Warnings</h3>
             </div>
             <div className="space-y-2">
               {warnings.activeWarnings.map((warning, index) => (
                 <div
                   key={index}
-                  className="text-sm bg-amber-900/20 text-amber-300 px-3 py-2 rounded-md flex items-center gap-2"
+                  className="text-xs sm:text-sm bg-amber-900/20 text-amber-300 px-2 sm:px-3 py-1.5 sm:py-2 rounded-md flex items-center gap-2"
                 >
                   <span className="text-amber-500">⚠️</span>
                   {formatWarningCode(warning)}
@@ -194,8 +194,8 @@ const HKWeatherPackageResponse: FC<HKWeatherPackageResponseProps> = ({ data }) =
         )}
 
         {/* Footer */}
-        <div className="px-4 py-3 text-xs text-gray-400 flex items-center gap-2">
-          <span className="text-base">📊</span>
+        <div className="px-3 sm:px-4 py-2 sm:py-3 text-xs text-gray-400 flex items-center gap-1 sm:gap-2">
+          <span className="text-sm sm:text-base">📊</span>
           <span>Data from Hong Kong Observatory</span>
         </div>
       </div>

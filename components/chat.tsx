@@ -45,14 +45,14 @@ const Chat: React.FC<ChatProps> = ({ items, onSendMessage }) => {
   return (
     <div className="flex justify-center items-center size-full">
       <div className="flex grow flex-col h-full max-w-[750px] gap-2">
-        <div className="h-[90vh] overflow-y-scroll px-10 flex flex-col">
+        <div className="h-[90vh] overflow-y-scroll px-4 md:px-10 flex flex-col">
           <div className="mt-auto space-y-5 pt-4">
             {items.length === 0 && (
-              <div className="flex items-start gap-2 max-w-xl mb-4">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-pink-400 to-purple-500 flex items-center justify-center shadow-lg">
-                  <span role="img" aria-label="Assistant">👻</span>
+              <div className="flex items-start gap-2 max-w-xl mb-3 sm:mb-4">
+                <div className="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br from-pink-400 to-purple-500 flex items-center justify-center shadow-lg">
+                  <span role="img" aria-label="Assistant" className="text-sm sm:text-base">👻</span>
                 </div>
-                <div className="flex flex-col gap-2 w-full">
+                <div className="flex flex-col gap-1 sm:gap-2 w-full">
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -85,7 +85,7 @@ const Chat: React.FC<ChatProps> = ({ items, onSendMessage }) => {
             <div ref={itemsEndRef} />
           </div>
         </div>
-        <div className="flex-1 p-4 px-10">
+        <div className="flex-1 p-4 md:px-10">
           <div className="flex flex-col">
             <div className="flex w-full items-center pb-2">
               <div className="flex w-full flex-col gap-1.5 rounded-[20px] p-2.5 pl-1.5 transition-colors bg-background border border-border">

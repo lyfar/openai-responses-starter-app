@@ -27,14 +27,14 @@ const HKSpecialTipsResponse: React.FC<HKSpecialTipsResponseProps> = ({ data }) =
     <div className="mt-2 mb-4">
       <div className="rounded-lg border border-border bg-background overflow-hidden">
         {/* Header */}
-        <div className="p-3 flex items-center justify-between border-b border-border">
+        <div className="p-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-border">
           <div className="flex items-center gap-2 text-primary">
-            <span className="text-xl">💡</span>
-            <h3 className="font-medium">Special Weather Tips</h3>
+            <span className="text-lg sm:text-xl">💡</span>
+            <h3 className="font-medium text-sm sm:text-base">Special Weather Tips</h3>
           </div>
           {data.updateTime && (
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <span className="text-base">🕒</span>
+            <div className="flex items-center gap-1 sm:gap-2 text-xs text-muted-foreground">
+              <span className="text-sm sm:text-base">🕒</span>
               <time dateTime={data.updateTime}>
                 {new Date(data.updateTime).toLocaleString()}
               </time>
@@ -43,14 +43,14 @@ const HKSpecialTipsResponse: React.FC<HKSpecialTipsResponseProps> = ({ data }) =
         </div>
 
         {/* Tips Content */}
-        <div className="p-4">
-          <ul className="space-y-3">
+        <div className="p-3 sm:p-4">
+          <ul className="space-y-2 sm:space-y-3">
             {data.tips.map((tip, index) => (
               <li 
                 key={index}
-                className="flex items-start gap-3 text-sm text-foreground"
+                className="flex items-start gap-2 sm:gap-3 text-xs sm:text-sm text-foreground"
               >
-                <span className="text-lg mt-[-2px]">✨</span>
+                <span className="text-base sm:text-lg mt-[-2px]">✨</span>
                 {tip}
               </li>
             ))}
@@ -58,8 +58,8 @@ const HKSpecialTipsResponse: React.FC<HKSpecialTipsResponseProps> = ({ data }) =
         </div>
 
         {/* Footer */}
-        <div className="px-4 pb-3 flex items-center gap-2 text-xs text-muted-foreground">
-          <span className="text-base">📊</span>
+        <div className="px-3 sm:px-4 pb-2 sm:pb-3 flex items-center gap-1 sm:gap-2 text-xs text-muted-foreground">
+          <span className="text-sm sm:text-base">📊</span>
           <span>Data from Hong Kong Observatory</span>
         </div>
       </div>

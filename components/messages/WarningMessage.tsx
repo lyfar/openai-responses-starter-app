@@ -25,11 +25,11 @@ export function WarningMessage({ isVisible }: WarningMessageProps) {
 
   return (
     <div className="chat-message">
-      <div className="flex items-start gap-2 max-w-xl mb-4">
-        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-pink-400 to-purple-500 flex items-center justify-center shadow-lg">
-          <span role="img" aria-label="Assistant">👻</span>
+      <div className="flex items-start gap-2 max-w-xl mb-3 sm:mb-4">
+        <div className="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-br from-pink-400 to-purple-500 flex items-center justify-center shadow-lg">
+          <span role="img" aria-label="Assistant" className="text-sm sm:text-base">👻</span>
         </div>
-        <div className="flex flex-col gap-2 w-full">
+        <div className="flex flex-col gap-1 sm:gap-2 w-full">
           {/* Love Message */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}

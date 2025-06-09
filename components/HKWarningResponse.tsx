@@ -93,10 +93,10 @@ const HKWarningResponse: React.FC<HKWarningResponseProps> = ({ data }) => {
               className={`rounded-lg border ${colors.border} ${colors.bg} overflow-hidden`}
             >
               {/* Warning Header */}
-              <div className="p-3 flex items-start justify-between gap-3">
+              <div className="p-3 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-3">
                 <div className="flex items-center gap-2">
-                  <AlertTriangle className={`h-5 w-5 ${colors.icon}`} />
-                  <h3 className={`font-medium ${colors.text}`}>
+                  <AlertTriangle className={`h-4 sm:h-5 w-4 sm:w-5 ${colors.icon}`} />
+                  <h3 className={`font-medium text-sm sm:text-base ${colors.text}`}>
                     {formatWarningType(warning.warningStatementCode)}
                   </h3>
                 </div>
@@ -111,12 +111,12 @@ const HKWarningResponse: React.FC<HKWarningResponseProps> = ({ data }) => {
               {/* Warning Content */}
               <div className={`px-3 pb-3 ${colors.text}`}>
                 {warning.contents?.map((content, contentIndex) => (
-                  <p key={contentIndex} className="text-sm mb-2 last:mb-0">
+                  <p key={contentIndex} className="text-xs sm:text-sm mb-2 last:mb-0">
                     {content}
                   </p>
                 ))}
                 {!Array.isArray(warning.contents) && warning.contents && (
-                  <p className="text-sm mb-2">
+                  <p className="text-xs sm:text-sm mb-2">
                     {warning.contents}
                   </p>
                 )}
@@ -125,8 +125,8 @@ const HKWarningResponse: React.FC<HKWarningResponseProps> = ({ data }) => {
               {/* Warning Subtype */}
               {warning.subtype && (
                 <div className={`px-3 pb-3 flex items-start gap-2 ${colors.text}`}>
-                  <AlertCircle className="h-4 w-4 mt-0.5" />
-                  <p className="text-sm">
+                  <AlertCircle className="h-3 sm:h-4 w-3 sm:w-4 mt-0.5" />
+                  <p className="text-xs sm:text-sm">
                     Warning Level: {warning.subtype}
                   </p>
                 </div>
